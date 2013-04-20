@@ -1,6 +1,6 @@
 # StatusResponse
 
-TODO: Write a gem description
+Inserts :forbidden, :unauthorized, and :not_found methods into ApplicationController::Base. Use these methods in before_filters, or in rescue_from handlers.
 
 ## Installation
 
@@ -32,9 +32,11 @@ Mixes the following methods into your ApplicationController
 
     #unauthorized
 
-#forbidden renders with status 403, #not_found with 404, and #unauthorized with 401. Use #not_found as an error handler:
+:forbidden renders with status 403, :not_found with 404, and :unauthorized with 401. Use #not_found as an error handler:
 
     rescue_from ActiveRecord::RecordNotFound, :with => :not_found
+
+This will render "errors/404_not_found", either the default one packaged in the gem, or the override in your view path.
 
 #unauthorized you can use in a #before_filter:
 
@@ -44,6 +46,8 @@ Mixes the following methods into your ApplicationController
       current_user.present? || unauthorized
     end
 
+This will render "errors/401_unauthorized", either the default one packaged in the gem, or the override in your view path.
+
 Likewise for #forbidden:
 
     before_filter :require_widget_access
@@ -52,15 +56,13 @@ Likewise for #forbidden:
       @widget.visible_to?(current_user) || forbidden
     end
 
-Sometimes you need access control for PDF documents, but you don't want to render a PDF that just tells
-your user they can't access this PDF (especially if they download it, assume it's there, and save it
-without looking at it). So instead of rendering an error page directly in PDF, it makes more sense to redirect
+This will render "errors/403_forbidden", either the default one packaged in the gem, or the override in your view path.
 
+If the current request is for a format other than HTML, these methods render HTML in any case, by switching the
+controllers #formats property temporarily just before rendering. So if your user tries to access a PDF, but there is a problem,
+the response will be in HTML anyway.
 
-
-
-
-TODO: Write usage instructions here
+TODO: I haven't figured out testing this yet. Watch this space. Any tips appreciated.
 
 ## Contributing
 
