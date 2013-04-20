@@ -38,7 +38,7 @@ Mixes the following methods into your ApplicationController
 
 This will render "errors/404_not_found", either the default one packaged in the gem, or the override in your view path.
 
-#unauthorized you can use in a #before_filter:
+:unauthorized you can use in a #before_filter:
 
     before_filter :require_current_user
 
