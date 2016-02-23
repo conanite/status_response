@@ -1,27 +1,26 @@
 module StatusResponse
   module ControllerMethods
-    def back
-      redirect_to (params[:return_to] || :back)
-    end
+    def back                           ; redirect_to (params[:return_to] || :back) ; end
+    def layout_for_error_status status ; "application"                             ; end
 
     def unauthorized
       status_response_with_html_format do
         # headers["WWW-Authenticate"] = "html-form login_form" # this would be great, but Opera complains about unrecognised authentication method
-        render "errors/401_unauthorized", :status => 401
+        render "errors/401_unauthorized", :status => 401, :layout => layout_for_error_status(401)
         false
       end
     end
 
     def forbidden
       status_response_with_html_format do
-        render "errors/403_forbidden", :status => 403
+        render "errors/403_forbidden", :status => 403, :layout => layout_for_error_status(403)
         false
       end
     end
 
     def not_found
       status_response_with_html_format do
-        render "errors/404_not_found", :status => 404
+        render "errors/404_not_found", :status => 404, :layout => layout_for_error_status(404)
         false
       end
     end
