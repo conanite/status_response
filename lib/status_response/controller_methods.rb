@@ -20,7 +20,7 @@ module StatusResponse
 
     def not_found msg=nil
       status_response_with_html_format do
-        render "errors/404_not_found", :status => 404, :layout => layout_for_error_status(404), :msg => msg
+        render "errors/404_not_found", :status => 404, :layout => layout_for_error_status(404), locals: { :msg => msg }
         false
       end
     end
