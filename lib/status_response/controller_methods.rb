@@ -2,7 +2,7 @@ module StatusResponse
   module ControllerMethods
     def back
       if params[:return_to].present?
-        redirect_to params[:return_to]
+        redirect_to params[:return_to].to_s
       else
         redirect_back fallback_location: "/"
       end
