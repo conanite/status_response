@@ -1,6 +1,13 @@
 module StatusResponse
   module ControllerMethods
-    def back                           ; redirect_to (params[:return_to] || :back) ; end
+    def back
+      if params[:return_to].present?
+        redirect_to params[:return_to]
+      else
+        redirect_back fallback_location: "/"
+      end
+    end
+
     def layout_for_error_status status ; "application"                             ; end
 
     def unauthorized
